@@ -9,6 +9,15 @@ namespace Microsoft.Samples.Kinect.SkeletonBasics
     class Gesture
     {
         Queue<string> que = new Queue<string>();
+        string strdata = null;
+        string strdata2 = " ";
+        string predata = null;
+        string nextdata = null;
+        int changeStatechkflag = 0;
+        int frame = 0;
+        int dataFrame = 0;
+
+        int test = 0;
 
         public void setQue(string strdata)
         {
@@ -21,7 +30,6 @@ namespace Microsoft.Samples.Kinect.SkeletonBasics
                 this.que.Enqueue(strdata);
                 this.que.Dequeue();
             }
-           
         }
 
         public Queue<String> getQue()
@@ -29,7 +37,22 @@ namespace Microsoft.Samples.Kinect.SkeletonBasics
             return que;
         }
 
-        public void algorithm(Skeleton skeleton)
+        public string getStrdata2()
+        {
+            return strdata2;
+        }
+
+        public string getFrame()
+        {
+            return frame.ToString();
+        }
+
+        public string getTest()
+        {
+            return test.ToString();
+        }
+
+        public string Gesture_Algorithm(Skeleton skeleton)
         {
             //제스쳐 프로토타이핑
             /*
@@ -39,11 +62,115 @@ namespace Microsoft.Samples.Kinect.SkeletonBasics
             if (temp2 == "나가") lbl_chk.Content = "U_RL";
             lbl.Content = temp2;
             */
+            
+            string gestureData;
 
-            string temp1 = null;
-            string temp2 = null;
+            if (Check(skeleton) != "")
+            {
+                this.setQue(Check(skeleton));
+            }
+            if(que.Count > 0)
+            {
+                strdata = que.Dequeue();
+                strdata2 = strdata2.Substring(strdata2.Length - 1) + strdata;
+            }
+                
+            //this.setQue_Gesture(strdata);
 
+            if (!ChangeofState(strdata2))
+            {
+                frame++;
+            }
+            else
+            {
+                frame = 0;
+            }
+            if (frame > 30)
+            {
+                changeStatechkflag = 0;
+                test = 0; // 삭제
+                return null;
+            }
+            if (changeStatechkflag > 0)
+            {
+                if(strdata2 == "BA")
+                {
+                    changeStatechkflag = -1;
+                    dataFrame = 0;
+                    test = 1; // 삭제
+                    return "U_RL";
+                }
+                dataFrame++;
+                if(dataFrame > 7)
+                {
+                    dataFrame = 0;
+                    test++; // 삭제
+                    return "U_LR";
+                }
+            }
+            if (changeStatechkflag < 0)
+            {
+                if (strdata2 == "AB")
+                {
+                    changeStatechkflag = 1;
+                    dataFrame = 0; 
+                    test = 1; // 삭제
+                    return "U_LR";
+                }
+                dataFrame++;
+                if(dataFrame > 7)
+                {
+                    dataFrame = 0;
+                    test++; // 삭제
+                    return "U_RL";
+                }
+            }
 
+            switch (strdata2)
+            {
+                case "AB":
+                    changeStatechkflag = 1;
+                    gestureData = "U_LR";
+                    test++; // 삭제
+                    break;
+                case "BA":
+                    changeStatechkflag = -1;
+                    test++; // 삭제
+                    gestureData = "U_RL";
+                    break;
+                case "CD":
+                    gestureData = "D_LR";
+                    break;
+                case "DC":
+                    gestureData = "D_RL";
+                    break;
+                default: return null;
+            }
+
+            return gestureData;
+        }
+
+        public bool ChangeofState(string strdata)
+        {
+            predata = nextdata;
+            nextdata = strdata;
+
+            if(predata == nextdata)
+            {
+                return false;
+            }
+            return true;
+        }
+
+        public string Check(Skeleton skeleton)
+        {
+            string strdata = null;
+
+            strdata = UP_L(skeleton);
+            strdata += UP_R(skeleton);
+            strdata += Down_L(skeleton);
+            strdata += Down_R(skeleton);
+            return strdata.Trim();
         }
 
         public string UP_R(Skeleton skeleton)
@@ -83,6 +210,7 @@ namespace Microsoft.Samples.Kinect.SkeletonBasics
         }
 
         // 제스쳐 메소드 프로토타이핑
+        /*
         public string check(Skeleton skeleton)
         {
             string strdata;
@@ -91,6 +219,7 @@ namespace Microsoft.Samples.Kinect.SkeletonBasics
             strdata += UP_L(skeleton);
             return strdata.Trim();
         }
+        */
         public string Down_R(Skeleton skeleton)
         {
             // Hand above shoulder
@@ -101,7 +230,7 @@ namespace Microsoft.Samples.Kinect.SkeletonBasics
                 if (skeleton.Joints[JointType.HandRight].Position.X >
                     skeleton.Joints[JointType.ShoulderRight].Position.X)
                 {
-                    return "C";
+                    return "D";
                 }
             }
 
@@ -119,7 +248,7 @@ namespace Microsoft.Samples.Kinect.SkeletonBasics
                 if (skeleton.Joints[JointType.HandRight].Position.X <
                     skeleton.Joints[JointType.ShoulderRight].Position.X)
                 {
-                    return "D";
+                    return "C";
                 }
             }
 

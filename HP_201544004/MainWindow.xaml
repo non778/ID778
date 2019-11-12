@@ -56,7 +56,9 @@
         <Viewbox Stretch="Uniform" HorizontalAlignment="Center" Grid.RowSpan="2" Margin="0,-1,0,1" Height="Auto">
             <Image Name="Image" Width="615" Height="468"/>
         </Viewbox>
-        <Label Name="lbl" Content="Label" HorizontalAlignment="Left" Margin="32,52,0,0" Grid.Row="1" VerticalAlignment="Top" Height="148" Width="476" FontSize="100"/>
-        <Label Name="lbl_chk" Content="Label" HorizontalAlignment="Left" Margin="32,212,0,0" Grid.Row="1" VerticalAlignment="Top" Height="139" Width="617" FontSize="100"/>
+        <Label Name="lbl" Content="현재 위치" HorizontalAlignment="Left" Margin="32,29,0,0" Grid.Row="1" VerticalAlignment="Top" Height="100" Width="374" FontSize="70"/>
+        <Label Name="lbl_chk" Content="제스쳐" HorizontalAlignment="Left" Margin="32,134,0,0" Grid.Row="1" VerticalAlignment="Top" Height="104" Width="316" FontSize="70"/>
+        <Label Name="lbl_frame"  Content="타임아웃" HorizontalAlignment="Left" Margin="32,369,0,0" Grid.Row="1" VerticalAlignment="Top" Height="106" Width="355" FontSize="70"/>
+        <Label Name="lbl_datachk" Content="싸이클횟수" HorizontalAlignment="Left" Margin="32,265,0,0" Grid.Row="1" VerticalAlignment="Top" Height="99" Width="332" FontSize="70"/>
     </Grid>
 </Window>

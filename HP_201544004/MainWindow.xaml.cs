@@ -86,11 +86,10 @@ namespace Microsoft.Samples.Kinect.SkeletonBasics
         /// </summary>
         private DrawingImage imageSource;
 
+        // Gesture 객체 생성
+        private Gesture gesture = new Gesture();
+
         private static string path = "C:\\Users\\user\\Desktop\\test\\test1.txt";
-        string predata = " ";
-        string nextdata = " ";
-
-
 
         /// <summary>
         /// Initializes a new instance of the MainWindow class.
@@ -209,7 +208,6 @@ namespace Microsoft.Samples.Kinect.SkeletonBasics
                     }
                 }
 
-
                 // prevent drawing outside of our render area
                 this.drawingGroup.ClipGeometry = new RectangleGeometry(new Rect(0.0, 0.0, RenderWidth, RenderHeight)); // 인식한 스켈레톤을 화면에 나타내줄수 있는 범위 
             }
@@ -243,10 +241,12 @@ namespace Microsoft.Samples.Kinect.SkeletonBasics
                     drawingContext.DrawEllipse(drawBrush, null, this.SkeletonPointToScreen(joint.Position), JointThickness, JointThickness); // 타원을 그림
                 }
             }                           
-
             ToFile(skeleton.Joints[JointType.HandRight].Position.X, skeleton.Joints[JointType.HandRight].Position.Y);  // 체크------------------------------------------------------------------------
 
-            
+            lbl_chk.Content = gesture.Gesture_Algorithm(skeleton);
+            lbl.Content = gesture.getStrdata2();
+            lbl_frame.Content = gesture.getFrame();
+            lbl_datachk.Content = gesture.getTest();
 
         }
 
