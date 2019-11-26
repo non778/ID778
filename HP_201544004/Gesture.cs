@@ -8,14 +8,14 @@ namespace Microsoft.Samples.Kinect.SkeletonBasics
 {
     class Gesture
     {
-        Queue<string> que = new Queue<string>();
-        string strdata = null;
-        string strdata2 = " ";
-        string predata = null;
-        string nextdata = null;
-        int changeStatechkflag = 0;
-        int frame = 0;
-        int dataFrame = 0;
+        Queue<string> que = new Queue<string>(); // 어깨 기준 구역 (A, B, C, D)
+        string strdata = null; // 이전 값
+        string strdata2 = " "; // 이전 값과 현재값을 합친 변수
+        string predata = null; // 이전 제스쳐
+        string nextdata = null; // 현재 제스쳐
+        int changeStatechkflag = 0; // "U_RL", "U_LR" 제스쳐 flag
+        int frame = 0; // 프레임 단위 타임아웃 체크
+        int dataFrame = 0; // 프레임 단위 제스쳐 전달 체크
 
         int test = 0;
 
@@ -63,7 +63,7 @@ namespace Microsoft.Samples.Kinect.SkeletonBasics
             lbl.Content = temp2;
             */
             
-            string gestureData;
+            string gestureData = null;
 
             if (Check(skeleton) != "")
             {
@@ -75,7 +75,6 @@ namespace Microsoft.Samples.Kinect.SkeletonBasics
                 strdata2 = strdata2.Substring(strdata2.Length - 1) + strdata;
             }
                 
-            //this.setQue_Gesture(strdata);
 
             if (!ChangeofState(strdata2))
             {
@@ -93,23 +92,31 @@ namespace Microsoft.Samples.Kinect.SkeletonBasics
             }
             if (changeStatechkflag > 0)
             {
-                if(strdata2 == "BA")
+                if (dataFrame > 7)
+                {
+                    dataFrame = 0;
+                    test++; // 삭제
+                    return "U_LR";
+                }
+                dataFrame++;
+                if (strdata2 == "BA")
                 {
                     changeStatechkflag = -1;
                     dataFrame = 0;
                     test = 1; // 삭제
                     return "U_RL";
                 }
-                dataFrame++;
-                if(dataFrame > 7)
-                {
-                    dataFrame = 0;
-                    test++; // 삭제
-                    return "U_LR";
-                }
+                return "U_LR";
             }
             if (changeStatechkflag < 0)
             {
+                if (dataFrame > 7)
+                {
+                    dataFrame = 0;
+                    test++; // 삭제
+                    return "U_RL";
+                }
+                dataFrame++;
                 if (strdata2 == "AB")
                 {
                     changeStatechkflag = 1;
@@ -117,13 +124,7 @@ namespace Microsoft.Samples.Kinect.SkeletonBasics
                     test = 1; // 삭제
                     return "U_LR";
                 }
-                dataFrame++;
-                if(dataFrame > 7)
-                {
-                    dataFrame = 0;
-                    test++; // 삭제
-                    return "U_RL";
-                }
+                return "U_RL";
             }
 
             switch (strdata2)
@@ -144,7 +145,7 @@ namespace Microsoft.Samples.Kinect.SkeletonBasics
                 case "DC":
                     gestureData = "D_RL";
                     break;
-                default: return null;
+                //default: return "xx";
             }
 
             return gestureData;
