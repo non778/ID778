@@ -270,6 +270,8 @@ namespace Microsoft.Samples.Kinect.SkeletonBasics
         /// <param name="drawingContext">drawing context to draw to</param>
         /// <param name="jointType0">joint to start drawing from</param> // 스켈레톤의 모든 관절 유형
         /// <param name="jointType1">joint to end drawing at</param> // 스켈레톤의 모든 관절 유형
+        /// 
+        /*
         private void DrawBone(Skeleton skeleton, DrawingContext drawingContext, JointType jointType0, JointType jointType1)
         {
             Joint joint0 = skeleton.Joints[jointType0];
@@ -298,6 +300,7 @@ namespace Microsoft.Samples.Kinect.SkeletonBasics
 
             drawingContext.DrawLine(drawPen, this.SkeletonPointToScreen(joint0.Position), this.SkeletonPointToScreen(joint1.Position)); // 점과 점을 잇는 선 그림
         }
+        */
         
 
         public static void ToFile(float x, float y)
@@ -313,89 +316,5 @@ namespace Microsoft.Samples.Kinect.SkeletonBasics
 
         }
 
-        public void GestureEx()
-        {
-
-        }
-
-        /*
-        public GesturePartResult UP_C(Skeleton skeleton)
-        {
-            // Hand above shoulder
-            if (skeleton.Joints[JointType.HandRight].Position.Y >
-                skeleton.Joints[JointType.ShoulderRight].Position.Y)
-            {
-                // Hand left of shoulder
-                if (skeleton.Joints[JointType.HandRight].Position.X ==
-                    skeleton.Joints[JointType.ShoulderRight].Position.X)
-                {
-                    return GesturePartResult.Succeeded;
-                }
-            }
-
-            // Hand dropped
-            return GesturePartResult.Failed;
-        }
-
-        public GesturePartResult Down_C(Skeleton skeleton)
-        {
-            // Hand above shoulder
-            if (skeleton.Joints[JointType.HandRight].Position.Y <
-                skeleton.Joints[JointType.ShoulderRight].Position.Y)
-            {
-                // Hand left of shoulder
-                if (skeleton.Joints[JointType.HandRight].Position.X ==
-                    skeleton.Joints[JointType.ShoulderRight].Position.X)
-                {
-                    return GesturePartResult.Succeeded;
-                }
-            }
-
-            // Hand dropped
-            return GesturePartResult.Failed;
-        }
-
-        public GesturePartResult Right_C(Skeleton skeleton)
-        {
-            // Hand above shoulder
-            if (skeleton.Joints[JointType.HandRight].Position.Y ==
-                skeleton.Joints[JointType.ShoulderRight].Position.Y)
-            {
-                // Hand left of shoulder
-                if (skeleton.Joints[JointType.HandRight].Position.X >
-                    skeleton.Joints[JointType.ShoulderRight].Position.X)
-                {
-                    return GesturePartResult.Succeeded;
-                }
-            }
-
-            // Hand dropped
-            return GesturePartResult.Failed;
-        }
-
-        public GesturePartResult Left_C(Skeleton skeleton)
-        {
-            // Hand above shoulder
-            if (skeleton.Joints[JointType.HandRight].Position.Y ==
-                skeleton.Joints[JointType.ShoulderRight].Position.Y)
-            {
-                // Hand left of shoulder
-                if (skeleton.Joints[JointType.HandRight].Position.X <
-                    skeleton.Joints[JointType.ShoulderRight].Position.X)
-                {
-                    return GesturePartResult.Succeeded;
-                }
-            }
-
-            // Hand dropped
-            return GesturePartResult.Failed;
-        }
-
-        public enum GesturePartResult
-        {
-            Failed,
-            Succeeded
-        }
-        */
     }
 }
