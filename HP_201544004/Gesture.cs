@@ -85,7 +85,7 @@ namespace Microsoft.Samples.Kinect.SkeletonBasics
             {
                 frame = 0;
             }
-            if (frame > 30)
+            if (frame > 50)
             {
                 changeStatechkflag = 0;
                 test = 0; // 삭제

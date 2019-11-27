@@ -241,7 +241,7 @@ namespace Microsoft.Samples.Kinect.SkeletonBasics
                     drawingContext.DrawEllipse(drawBrush, null, this.SkeletonPointToScreen(joint.Position), JointThickness, JointThickness); // 타원을 그림
                 }
             }                           
-            ToFile(skeleton.Joints[JointType.HandRight].Position.X, skeleton.Joints[JointType.HandRight].Position.Y);  // 체크------------------------------------------------------------------------
+            //ToFile(skeleton.Joints[JointType.HandRight].Position.X, skeleton.Joints[JointType.HandRight].Position.Y);  // 체크------------------------------------------------------------------------
 
             lbl_chk.Content = gesture.Gesture_Algorithm(skeleton);
             lbl.Content = gesture.getStrdata2();
