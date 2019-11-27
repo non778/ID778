@@ -60,5 +60,6 @@
         <Label Name="lbl_chk" Content="제스쳐" HorizontalAlignment="Left" Margin="32,134,0,0" Grid.Row="1" VerticalAlignment="Top" Height="104" Width="316" FontSize="70"/>
         <Label Name="lbl_frame"  Content="타임아웃" HorizontalAlignment="Left" Margin="32,369,0,0" Grid.Row="1" VerticalAlignment="Top" Height="106" Width="355" FontSize="70"/>
         <Label Name="lbl_datachk" Content="싸이클횟수" HorizontalAlignment="Left" Margin="32,265,0,0" Grid.Row="1" VerticalAlignment="Top" Height="99" Width="332" FontSize="70"/>
+        <Label Name ="lbl_mouse" Content="Label" HorizontalAlignment="Left" Margin="32,475,0,0" Grid.Row="1" VerticalAlignment="Top" Height="49" Width="332" FontSize="30"/>
     </Grid>
 </Window>

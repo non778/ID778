@@ -1,0 +1,16 @@
+C:\Users\zmzmd\Documents\GitHub\ID778\HP_201544004\bin\Debug\HP_201544004.exe
+C:\Users\zmzmd\Documents\GitHub\ID778\HP_201544004\bin\Debug\HP_201544004.pdb
+C:\Users\zmzmd\Documents\GitHub\ID778\HP_201544004\bin\Debug\Microsoft.Kinect.dll
+C:\Users\zmzmd\Documents\GitHub\ID778\HP_201544004\bin\Debug\Newtonsoft.Json.dll
+C:\Users\zmzmd\Documents\GitHub\ID778\HP_201544004\bin\Debug\Microsoft.Kinect.xml
+C:\Users\zmzmd\Documents\GitHub\ID778\HP_201544004\bin\Debug\Newtonsoft.Json.xml
+C:\Users\zmzmd\Documents\GitHub\ID778\HP_201544004\obj\Debug\HP_201544004.csprojAssemblyReference.cache
+C:\Users\zmzmd\Documents\GitHub\ID778\HP_201544004\obj\Debug\MainWindow.baml
+C:\Users\zmzmd\Documents\GitHub\ID778\HP_201544004\obj\Debug\MainWindow.g.cs
+C:\Users\zmzmd\Documents\GitHub\ID778\HP_201544004\obj\Debug\App.g.cs
+C:\Users\zmzmd\Documents\GitHub\ID778\HP_201544004\obj\Debug\HP_201544004_MarkupCompile.cache
+C:\Users\zmzmd\Documents\GitHub\ID778\HP_201544004\obj\Debug\HP_201544004.g.resources
+C:\Users\zmzmd\Documents\GitHub\ID778\HP_201544004\obj\Debug\HP_201544004.csproj.CoreCompileInputs.cache
+C:\Users\zmzmd\Documents\GitHub\ID778\HP_201544004\obj\Debug\HP_201544004.csproj.CopyComplete
+C:\Users\zmzmd\Documents\GitHub\ID778\HP_201544004\obj\Debug\HP_201544004.exe
+C:\Users\zmzmd\Documents\GitHub\ID778\HP_201544004\obj\Debug\HP_201544004.pdb

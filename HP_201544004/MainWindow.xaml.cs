@@ -6,7 +6,7 @@
 
 namespace Microsoft.Samples.Kinect.SkeletonBasics
 {
-    using System.Collections.Generic;
+
     using System.IO;
     using System.Linq;
     using System.Text;
@@ -14,6 +14,8 @@ namespace Microsoft.Samples.Kinect.SkeletonBasics
     using System.Windows.Media;
     using Microsoft.Kinect;
     using Newtonsoft.Json.Linq;
+    using System.Runtime.InteropServices;
+    using System;
 
 
     /// <summary>
@@ -87,9 +89,22 @@ namespace Microsoft.Samples.Kinect.SkeletonBasics
         private DrawingImage imageSource;
 
         // Gesture 객체 생성
-        private Gesture gesture = new Gesture();
+        private Gesture gesture = new Gesture(); // 제스쳐 객체 생성
 
         private static string path = "C:\\Users\\user\\Desktop\\test\\test1.txt";
+
+        private const uint LBDOWN = 0x00000002; // 왼쪽 마우스 버튼 눌림
+        private const uint LBUP = 0x00000004; // 왼쪽 마우스 버튼 떼어짐
+
+        [DllImport("user32.dll")] // 입력 제어
+        static extern void mouse_event(uint dwFlags, uint dx, uint dy, int dwData, int dwExtraInfo);
+
+        [DllImport("user32.dll")] // 커서 위치 제어
+        static extern int SetCursorPos(int x, int y);
+
+
+        int mouseflag = 0;
+
 
         /// <summary>
         /// Initializes a new instance of the MainWindow class.
@@ -97,6 +112,7 @@ namespace Microsoft.Samples.Kinect.SkeletonBasics
         public MainWindow()
         {
             InitializeComponent();
+            //Image.Visibility = Visibility.Hidden;
         }
 
         /// <summary>
@@ -141,7 +157,7 @@ namespace Microsoft.Samples.Kinect.SkeletonBasics
                 {
                     this.sensor.Start();
                     this.sensor.DepthStream.Range = DepthRange.Near;
-                    this.sensor.SkeletonStream.TrackingMode = SkeletonTrackingMode.Seated;                
+                    this.sensor.SkeletonStream.TrackingMode = SkeletonTrackingMode.Seated;
                 }
                 catch (IOException)
                 {
@@ -220,10 +236,10 @@ namespace Microsoft.Samples.Kinect.SkeletonBasics
         /// <param name="drawingContext">drawing context to draw to</param> 그리기, 푸시 및 팝 명령을 사용하여 시각적 콘텐츠를 설명합니다.
         private void DrawBonesAndJoints(Skeleton skeleton, DrawingContext drawingContext)
         {
-            Joint[] joints = {skeleton.Joints[JointType.HandRight], skeleton.Joints[JointType.ShoulderRight]}; // joint 스켈레톤의 관절을 설명하는데 사용
+            Joint[] joints = { skeleton.Joints[JointType.WristRight], skeleton.Joints[JointType.ShoulderRight] }; // joint 스켈레톤의 관절을 설명하는데 사용
 
-            
-            foreach(Joint joint in joints)
+
+            foreach (Joint joint in joints)
             {
                 Brush drawBrush = null;
 
@@ -240,14 +256,45 @@ namespace Microsoft.Samples.Kinect.SkeletonBasics
                 {
                     drawingContext.DrawEllipse(drawBrush, null, this.SkeletonPointToScreen(joint.Position), JointThickness, JointThickness); // 타원을 그림
                 }
-            }                           
+            }
             //ToFile(skeleton.Joints[JointType.HandRight].Position.X, skeleton.Joints[JointType.HandRight].Position.Y);  // 체크------------------------------------------------------------------------
+            
+            // 싱글톤 부여
+            /*
+            if (gesture.GetKeyWord().Equals("GEST") || gesture.GetKeyWord().Equals("GOBY"))
+            {
+                Image.Visibility = Visibility.Visible;
+            }
+
+            if (gesture.GetKeyWord().Equals("End"))
+            {
+                Image.Visibility = Visibility.Hidden;
+            }
+            */
 
             lbl_chk.Content = gesture.Gesture_Algorithm(skeleton);
             lbl.Content = gesture.getStrdata2();
             lbl_frame.Content = gesture.getFrame();
             lbl_datachk.Content = gesture.getTest();
 
+            // 마우스 제어
+            
+            SetCursorPos((int)skeleton.Joints[JointType.HandRight].Position.X, (int)skeleton.Joints[JointType.HandRight].Position.Y);
+            if (gesture.Mouse_Click(skeleton))
+            {
+                mouse_event(LBDOWN, 0, 0, 0, 0);
+                lbl_mouse.Content = "클릭";
+                mouseflag = 1;
+            }
+            else
+            {
+                mouseflag = 0;
+                if (gesture.UNMouse_Click(skeleton) && mouseflag == 0)
+                {
+                    mouse_event(LBUP, 0, 0, 0, 0);
+                    lbl_mouse.Content = "클릭 때기";
+                }
+            }           
         }
 
         /// <summary>
@@ -301,8 +348,8 @@ namespace Microsoft.Samples.Kinect.SkeletonBasics
             drawingContext.DrawLine(drawPen, this.SkeletonPointToScreen(joint0.Position), this.SkeletonPointToScreen(joint1.Position)); // 점과 점을 잇는 선 그림
         }
         */
-        
 
+        /*
         public static void ToFile(float x, float y)
         {
 
@@ -315,6 +362,7 @@ namespace Microsoft.Samples.Kinect.SkeletonBasics
             }
 
         }
+        */
 
     }
 }

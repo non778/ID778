@@ -16,8 +16,25 @@ namespace Microsoft.Samples.Kinect.SkeletonBasics
         int changeStatechkflag = 0; // "U_RL", "U_LR" 제스쳐 flag
         int frame = 0; // 프레임 단위 타임아웃 체크
         int dataFrame = 0; // 프레임 단위 제스쳐 전달 체크
+        string keyWord;
+        bool chkClick = false;
 
         int test = 0;
+
+        public Gesture()
+        {
+
+        }
+
+        public void SetKeyWord(string KeyWord)
+        {
+            this.keyWord = KeyWord;
+        }
+
+        public string GetKeyWord()
+        {
+            return this.keyWord;
+        }
 
         public void setQue(string strdata)
         {
@@ -177,11 +194,11 @@ namespace Microsoft.Samples.Kinect.SkeletonBasics
         public string UP_R(Skeleton skeleton)
         {
             // Hand above shoulder
-            if (skeleton.Joints[JointType.HandRight].Position.Y >
+            if (skeleton.Joints[JointType.WristRight].Position.Y >
                 skeleton.Joints[JointType.ShoulderRight].Position.Y)
             {
                 // Hand right of shoulder
-                if (skeleton.Joints[JointType.HandRight].Position.X >
+                if (skeleton.Joints[JointType.WristRight].Position.X >
                     skeleton.Joints[JointType.ShoulderRight].Position.X)
                 {
                     return "B";
@@ -195,11 +212,11 @@ namespace Microsoft.Samples.Kinect.SkeletonBasics
         public string UP_L(Skeleton skeleton)
         {
             // Hand above shoulder
-            if (skeleton.Joints[JointType.HandRight].Position.Y >
+            if (skeleton.Joints[JointType.WristRight].Position.Y >
                 skeleton.Joints[JointType.ShoulderRight].Position.Y)
             {
                 // Hand left of shoulder
-                if (skeleton.Joints[JointType.HandRight].Position.X <
+                if (skeleton.Joints[JointType.WristRight].Position.X <
                     skeleton.Joints[JointType.ShoulderRight].Position.X)
                 {
                     return "A";
@@ -224,11 +241,11 @@ namespace Microsoft.Samples.Kinect.SkeletonBasics
         public string Down_R(Skeleton skeleton)
         {
             // Hand above shoulder
-            if (skeleton.Joints[JointType.HandRight].Position.Y <
+            if (skeleton.Joints[JointType.WristRight].Position.Y <
                 skeleton.Joints[JointType.ShoulderRight].Position.Y)
             {
                 // Hand left of shoulder
-                if (skeleton.Joints[JointType.HandRight].Position.X >
+                if (skeleton.Joints[JointType.WristRight].Position.X >
                     skeleton.Joints[JointType.ShoulderRight].Position.X)
                 {
                     return "D";
@@ -242,11 +259,11 @@ namespace Microsoft.Samples.Kinect.SkeletonBasics
         public string Down_L(Skeleton skeleton)
         {
             // Hand above shoulder
-            if (skeleton.Joints[JointType.HandRight].Position.Y <
+            if (skeleton.Joints[JointType.WristRight].Position.Y <
                 skeleton.Joints[JointType.ShoulderRight].Position.Y)
             {
                 // Hand left of shoulder
-                if (skeleton.Joints[JointType.HandRight].Position.X <
+                if (skeleton.Joints[JointType.WristRight].Position.X <
                     skeleton.Joints[JointType.ShoulderRight].Position.X)
                 {
                     return "C";
@@ -255,6 +272,48 @@ namespace Microsoft.Samples.Kinect.SkeletonBasics
 
             // Hand dropped
             return " ";
+        }
+
+        int leftchk = 0;
+
+        public bool Mouse_Click(Skeleton skeleton)
+        {
+            if(skeleton.Joints[JointType.HandLeft].Position.Y > skeleton.Joints[JointType.ShoulderRight].Position.Y)
+            {
+                if(skeleton.Joints[JointType.HandLeft].Position.X < skeleton.Joints[JointType.ShoulderRight].Position.X)
+                {
+                    leftchk = 1;
+                }
+                else
+                {
+                    leftchk = 0;
+                }
+            }
+            else
+            {
+                leftchk = 0;
+            }
+
+            if (/*skeleton.Joints[JointType.HandRight].Position.Y < skeleton.Joints[JointType.WristRight].Position.Y &&*/ leftchk == 1)
+            {
+                return chkClick = true;
+            }
+            else
+            {
+                return false;
+            }     
+        }
+
+        public bool UNMouse_Click(Skeleton skeleton)
+        {
+            if (/*skeleton.Joints[JointType.HandRight].Position.Y > skeleton.Joints[JointType.WristRight].Position.Y ||*/ leftchk == 0)
+            {
+                return chkClick = true;
+            }
+            else
+            {
+                return false;
+            }
         }
     }
 }
