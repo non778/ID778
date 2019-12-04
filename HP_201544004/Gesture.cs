@@ -18,6 +18,7 @@ namespace Microsoft.Samples.Kinect.SkeletonBasics
         int dataFrame = 0; // 프레임 단위 제스쳐 전달 체크
         string keyWord;
         bool chkClick = false;
+        int playchk = 1;
 
         int test = 0;
 
@@ -168,6 +169,33 @@ namespace Microsoft.Samples.Kinect.SkeletonBasics
             return gestureData;
         }
 
+        public bool start_stop(Skeleton skeleton)
+        {
+            if (Check(skeleton) != "")
+            {
+                this.setQue(Check(skeleton));
+            }
+            if (que.Count > 0)
+            {
+                strdata = que.Dequeue();
+                strdata2 = strdata2.Substring(strdata2.Length - 1) + strdata;
+            }
+
+            if (strdata2 == "DB")
+            {
+                playchk = playchk * -1;
+            }
+
+            if(playchk < 0)
+            {
+                return false;
+            }
+            else
+            {
+                return true;
+            }
+        }
+
         public bool ChangeofState(string strdata)
         {
             predata = nextdata;
@@ -276,6 +304,7 @@ namespace Microsoft.Samples.Kinect.SkeletonBasics
 
         int leftchk = 0;
 
+        // 마우스 이벤트
         public bool Mouse_Click(Skeleton skeleton)
         {
             if(skeleton.Joints[JointType.HandLeft].Position.Y > skeleton.Joints[JointType.ShoulderRight].Position.Y)
