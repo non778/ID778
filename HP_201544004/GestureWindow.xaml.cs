@@ -117,10 +117,19 @@ namespace Microsoft.Samples.Kinect.SkeletonBasics
         /// <summary>
         /// Initializes a new instance of the MainWindow class.
         /// </summary>
-        public MainWindow()
+        public MainWindow(string strdata)
         {
-            InitializeComponent();
+            SetGestureWindow(strdata);
+            //InitializeComponent();
             //Image.Visibility = Visibility.Hidden;
+        }
+
+        public void SetGestureWindow(string strdata)
+        {
+            if(strdata.Equals("GOBY"))
+            {
+                InitializeComponent();
+            }
         }
 
         /// <summary>
