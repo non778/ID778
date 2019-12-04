@@ -54,7 +54,7 @@
             <RowDefinition Height="Auto"/>
         </Grid.RowDefinitions>
         <Viewbox Stretch="Uniform" HorizontalAlignment="Center" Grid.RowSpan="2" Margin="0,-1,0,1" Height="Auto">
-            <Image Name="Image" Width="615" Height="468"/>
+            <Image Name="Image" Width="1920" Height="1320"/>
         </Viewbox>
         <Label Name="lbl" Content="현재 위치" HorizontalAlignment="Left" Margin="32,29,0,0" Grid.Row="1" VerticalAlignment="Top" Height="100" Width="374" FontSize="70"/>
         <Label Name="lbl_chk" Content="제스쳐" HorizontalAlignment="Left" Margin="32,134,0,0" Grid.Row="1" VerticalAlignment="Top" Height="104" Width="316" FontSize="70"/>

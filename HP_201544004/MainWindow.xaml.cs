@@ -8,13 +8,12 @@ namespace Microsoft.Samples.Kinect.SkeletonBasics
 {
 
     using System.IO;
-    using System.Linq;
-    using System.Text;
     using System.Windows;
     using System.Windows.Media;
     using Microsoft.Kinect;
-    using Newtonsoft.Json.Linq;
     using System.Runtime.InteropServices;
+    using System;
+    using System.Windows.Forms;
     using System;
 
 
@@ -96,15 +95,22 @@ namespace Microsoft.Samples.Kinect.SkeletonBasics
         private const uint LBDOWN = 0x00000002; // 왼쪽 마우스 버튼 눌림
         private const uint LBUP = 0x00000004; // 왼쪽 마우스 버튼 떼어짐
 
-        [DllImport("user32.dll")] // 입력 제어
-        static extern void mouse_event(uint dwFlags, uint dx, uint dy, int dwData, int dwExtraInfo);
+        // 마우스 제어를 위한 초기값
+        //[DllImport("user32.dll")] // 입력 제어
+        //static extern void mouse_event(uint dwFlags, uint dx, uint dy, int dwData, int dwExtraInfo);
 
-        [DllImport("user32.dll")] // 커서 위치 제어
-        static extern int SetCursorPos(int x, int y);
+        //int mouseflag = 0;
 
-
-        int mouseflag = 0;
-
+        /*
+        [StructLayout(LayoutKind.Sequential)]
+        public struct POINT
+        {
+            public int x;
+            public int y;
+        }
+        */
+        //int x;
+        //int y;
 
         /// <summary>
         /// Initializes a new instance of the MainWindow class.
@@ -152,7 +158,7 @@ namespace Microsoft.Samples.Kinect.SkeletonBasics
                 // Add an event handler to be called whenever there is new color frame data 새로운 컬러 프레임 데이터가 있을때마다 호출될 이벤트 핸들러 추가
                 this.sensor.SkeletonFrameReady += this.SensorSkeletonFrameReady;
 
-                // Start the sensor! // 센서 시작
+                // Start the sensor! // 센서 시작, Near모드로 가까운 거리에서도 인식률 높임
                 try
                 {
                     this.sensor.Start();
@@ -210,7 +216,7 @@ namespace Microsoft.Samples.Kinect.SkeletonBasics
                     {
                         if (skel.TrackingState == SkeletonTrackingState.Tracked)
                         {
-                            this.DrawBonesAndJoints(skel, dc);
+                            this.DrawBonesAndJoints(skel, dc); // 스켈레톤 어깨 및 손목 그림
                         }
                         else if (skel.TrackingState == SkeletonTrackingState.PositionOnly) // 골격 추적은 되지만 일반적인 위치만 알고 특정 관절 위치를 모를때
                         {
@@ -236,6 +242,7 @@ namespace Microsoft.Samples.Kinect.SkeletonBasics
         /// <param name="drawingContext">drawing context to draw to</param> 그리기, 푸시 및 팝 명령을 사용하여 시각적 콘텐츠를 설명합니다.
         private void DrawBonesAndJoints(Skeleton skeleton, DrawingContext drawingContext)
         {
+            /*
             Joint[] joints = { skeleton.Joints[JointType.WristRight], skeleton.Joints[JointType.ShoulderRight] }; // joint 스켈레톤의 관절을 설명하는데 사용
 
 
@@ -257,7 +264,7 @@ namespace Microsoft.Samples.Kinect.SkeletonBasics
                     drawingContext.DrawEllipse(drawBrush, null, this.SkeletonPointToScreen(joint.Position), JointThickness, JointThickness); // 타원을 그림
                 }
             }
-            //ToFile(skeleton.Joints[JointType.HandRight].Position.X, skeleton.Joints[JointType.HandRight].Position.Y);  // 체크------------------------------------------------------------------------
+            */
             
             // 싱글톤 부여
             /*
@@ -278,8 +285,10 @@ namespace Microsoft.Samples.Kinect.SkeletonBasics
             lbl_datachk.Content = gesture.getTest();
 
             // 마우스 제어
-            
-            SetCursorPos((int)skeleton.Joints[JointType.HandRight].Position.X, (int)skeleton.Joints[JointType.HandRight].Position.Y);
+            //x = (int)skeleton.Joints[JointType.HandRight].Position.X * 100;
+            //y = (int)skeleton.Joints[JointType.HandRight].Position.Y * 100;
+            //SetCursorPos(x, y);
+            /*
             if (gesture.Mouse_Click(skeleton))
             {
                 mouse_event(LBDOWN, 0, 0, 0, 0);
@@ -294,7 +303,8 @@ namespace Microsoft.Samples.Kinect.SkeletonBasics
                     mouse_event(LBUP, 0, 0, 0, 0);
                     lbl_mouse.Content = "클릭 때기";
                 }
-            }           
+            }
+            */
         }
 
         /// <summary>
@@ -318,6 +328,8 @@ namespace Microsoft.Samples.Kinect.SkeletonBasics
         /// <param name="jointType0">joint to start drawing from</param> // 스켈레톤의 모든 관절 유형
         /// <param name="jointType1">joint to end drawing at</param> // 스켈레톤의 모든 관절 유형
         /// 
+
+
         /*
         private void DrawBone(Skeleton skeleton, DrawingContext drawingContext, JointType jointType0, JointType jointType1)
         {
@@ -348,21 +360,5 @@ namespace Microsoft.Samples.Kinect.SkeletonBasics
             drawingContext.DrawLine(drawPen, this.SkeletonPointToScreen(joint0.Position), this.SkeletonPointToScreen(joint1.Position)); // 점과 점을 잇는 선 그림
         }
         */
-
-        /*
-        public static void ToFile(float x, float y)
-        {
-
-            JObject jObject = new JObject();
-            //string strdata = null;
-            using (StreamWriter Sw = new StreamWriter(new FileStream(path, FileMode.Append), Encoding.UTF8))
-            {
-
-                //Sw.Write(jObject.ToString());
-            }
-
-        }
-        */
-
     }
 }
